@@ -1,0 +1,91 @@
+.coveren{
+	width:100%;
+	margin-top:10px;
+}
+
+.remove-btn{
+	margin-right: 20px;
+}
+
+
+.navor{
+	margin-top: 20px;
+}
+
+.batata{
+	margin-right: 20px;
+}
+
+.img_item{
+	height: 300px;
+	width: 300px;
+}
+.last_price{
+	text-decoration: line-through !important;
+	color:#696969;
+}
+
+.btn-link{
+	text-decoration:none !important;
+	color:#28a745;
+	cursor: pointer;
+}
+
+.image_comment{
+	height: 64px;
+	width: 64px;
+}
+
+.sign_pic{
+	max-width: 600px;
+    height: 600px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 100px;
+    padding-bottom: 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -20px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -20px;
+  content: "✖";
+}
+
+.disabledContent 
+{
+    cursor: not-allowed;
+    background-color: rgb(229, 229, 229) !important;
+    pointer-events:none;
+}
+
+.moveSouth{
+	color:red;
+}
