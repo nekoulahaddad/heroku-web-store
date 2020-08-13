@@ -1,4 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://nekoula:<Bigsur88>@cluster0.t9iei.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority",
+	"mongoURI": "put your mongoURI here",
 	"jwtsecret":"kkll453hdjd"
 }
