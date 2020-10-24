@@ -35,7 +35,6 @@ componentDidUpdate(prevProps) {
   }
 }
 if (isAuthenticated){this.props.history.push("/Landing")}
-      else console.log("hi");
 }
 
 

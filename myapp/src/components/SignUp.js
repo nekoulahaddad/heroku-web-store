@@ -19,7 +19,7 @@ class SignUp extends Component {
         error: PropTypes.object.isRequired,
         register: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired,
-        user: PropTypes.object.isRequired
+        user: PropTypes.object
     }
 
     componentDidUpdate(prevProps) {
@@ -129,17 +129,17 @@ class SignUp extends Component {
 <Col className="align-self-center" md={6}>
 <Form className="navor" onSubmit={this.onSubmit}>
 <FormGroup className="mr-3">
-  <i class="fa fa-user icon mr-1"></i>
+  <i className="fa fa-user icon mr-1"></i>
   <Label for="name">Name</Label>
   <Input type="text" name="name" id="name" placeholder=" Whats your name !" onChange={this.onChange} />
 </FormGroup>  
 <FormGroup className="mr-3">
-  <i class="fa fa-envelope icon mr-1"></i>
+  <i className="fa fa-envelope icon mr-1"></i>
   <Label for="email">Email</Label>
   <Input type="email" name="email" id="email" placeholder="Enter your email please !" onChange={this.onChange} />
 </FormGroup>
 <FormGroup className="mr-3">
-  <i class="fa fa-key icon mr-1"></i>
+  <i className="fa fa-key icon mr-1"></i>
   <Label for="password">Password</Label>
   <Input 
   type="password" 

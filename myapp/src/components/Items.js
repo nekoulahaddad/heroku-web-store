@@ -44,9 +44,16 @@ class Items extends Component {
 
     onClickHandler = () => {
         const data = new FormData()
-        data.append('file', this.state.selectedFile)
+        data.append('profileImage', this.state.selectedFile, this.state.selectedFile.name)
+        /*
         const config = {
             header: { 'content-type': 'multipart/form-data' },
+        */
+        const config = { headers: {
+                    'accept': 'application/json',
+                    'Accept-Language': 'en-US,en;q=0.8',
+                    'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                    },
             onUploadProgress: progressEvent => {
                 this.setState({
                     uploadPercentage: parseInt(
@@ -58,7 +65,7 @@ class Items extends Component {
                 setTimeout(() => this.setState({ uploadPercentage: 0 }), 10000);
             }
         }
-        axios.post('/items/uploadImage', data, config)
+        axios.post('/items/profile-img-upload', data, config)
             .then(response => {
 
                 if (response.data.success) {

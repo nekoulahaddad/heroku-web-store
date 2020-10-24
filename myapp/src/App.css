@@ -18,7 +18,7 @@
 
 .img_item{
 	height: 300px;
-	width: 300px;
+	width: 100%;
 }
 .last_price{
 	text-decoration: line-through !important;
@@ -70,7 +70,7 @@ footer {
 
 /* Add a red text color and an "x" when the requirements are wrong */
 .invalid {
-  color: red;
+  color: black;
 }
 
 .invalid:before {

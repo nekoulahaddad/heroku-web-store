@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import {Container, Table } from 'reactstrap';
+import {useDispatch } from "react-redux";
 
 function HistoryPage() {
 
     const [History, setHistory] = useState([])
-
+    const dispatch = useDispatch();
+    
     useEffect(() => {
-
+        dispatch({type:"ITEMS_LOADING"});
         Axios.get('/users/getHistory')
             .then(response => {
                 if (response.data.success) {
                     setHistory(response.data.history)
-                    console.log(History)
                 } else {
                     console.log("Failed to get History")
                     alert('Failed to get History')
                 }
             })
 
-    }, [History])
+    }, [History])// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
 
@@ -41,8 +42,8 @@ function HistoryPage() {
         </tr>
       </thead>
       <tbody>
-      {History.map(item => (
-                        <tr key={item._id}>
+      {History.map((item,index) => (
+                        <tr key={index}>
                             <th scope="row">{History.indexOf(item)+1}</th>
                             <td >{item.name}</td>
                             <td ><span className="font-weight-bold mr-1">$</span>{item.price}</td>

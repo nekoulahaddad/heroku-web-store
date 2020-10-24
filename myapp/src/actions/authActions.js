@@ -266,10 +266,7 @@ const token = localStorage.getItem('token');
 
 if (token) {
     axios.defaults.headers.common['x-auth-token'] = token;
-  } else {
-  	//delete axios.defaults.commons['x-auth-token'];
-    console.log("fuck you");
-  }
+  } 
 };
 
 

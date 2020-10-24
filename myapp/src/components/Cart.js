@@ -70,7 +70,6 @@ this.setState({ShowTotal:false})
 
 render() {
         const cartInfo = this.props.cartInfo;
-        const img1 = "http://localhost:5000/";
         return (          
 <div className="container-fluid">
 
@@ -88,7 +87,6 @@ render() {
         <tr>
           <th></th>
           <th>Product Name</th>
-          <th>Discription</th>
           <th>Price</th>
           <th>Seller</th>
           <th>Quantity</th>
@@ -105,7 +103,7 @@ render() {
                   {item.images.length === 0 ? <img alt="cart" className="image_comment"  src="https://via.placeholder.com/300x300/FFFFFF/000000/?text=syriashop.com" />:null}
                   {item.images.map((image) => (
                     <div key={item.images.indexOf(image)}>
-                    <img alt="cart" className="image_comment" src={`${img1}${image}`} />
+                    <img alt="cart" className="image_comment" src={image} />
                     </div>
                   ))}
                   </div>
@@ -114,7 +112,6 @@ render() {
 
           </td>
           <td>{item.name}</td>
-          <td>{item.description}</td>
           <td>${item.price}</td>
           <td>{item.writer.name}</td>
           <td>   <div className="d-inline-block">    {item.quantity > 1 ? ( 

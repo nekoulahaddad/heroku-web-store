@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { addReply, addComment, addItem, getItem, deleteItem } from '../actions/itemActions';
-import { addToCart } from '../actions/authActions';
+import { addToCart, removeFromCart } from '../actions/authActions';
 import PropTypes from 'prop-types';
 import { Col, Row, Button, Input, Alert } from 'reactstrap';
 import ReactTimeAgo from 'react-time-ago';
@@ -25,6 +25,7 @@ class Item extends Component {
         isAuthenticated: PropTypes.bool,
         getItem: PropTypes.func.isRequired,
         deleteItem: PropTypes.func.isRequired,
+        removeFromCart : PropTypes.func.isRequired,
         item: PropTypes.object.isRequired,
         addComment: PropTypes.func.isRequired,
         addReply: PropTypes.func.isRequired,
@@ -39,7 +40,7 @@ class Item extends Component {
           this.setState({user_id:this.props.user._id})
         } else if (this.props.user && this.props.user.id){
            this.setState({user_id:this.props.user.id})
-        }else console.log("al wade3 9a3eb")
+        }
     };
 
 
@@ -48,9 +49,17 @@ class Item extends Component {
         this.props.history.push("/Dashboard")
     };
 
+   onDeleteCart = id => {
+     this.props.removeFromCart(id);
+     document.getElementById("a-cart").classList.toggle("d-none");
+     document.getElementById("d-cart").classList.toggle("d-none");
+};
+
     onAddToCart = id => {  
         if (this.props.isAuthenticated) {
         this.props.addToCart(id);
+        document.getElementById("a-cart").classList.toggle("d-none");
+        document.getElementById("d-cart").classList.toggle("d-none");
     }else this.props.history.push('/SignIn')
     };
 
@@ -80,7 +89,6 @@ class Item extends Component {
 
 
     ShowAndHide = (id) => {
-        console.log(id)
         this.setState({ show_reply: !this.state.show_reply })
         if (this.state.show_reply) {
             document.getElementById(id).className = 'd-block'
@@ -89,7 +97,6 @@ class Item extends Component {
 
     ShowAndHideReply = (id) => {
         const Id = id + "1";
-        console.log(id)
         this.setState({ show_reply: !this.state.show_reply })
         if (this.state.show_reply) {
             document.getElementById(Id).className = 'd-block'
@@ -103,7 +110,7 @@ class Item extends Component {
 
     render() {
         const item = this.props.item.product;
-        const img1 = "http://localhost:5000/";
+        const img1 = "";
         const img4 = "https://www.cobdoglaps.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile.jpg";
         return (
           <div>
@@ -121,15 +128,15 @@ class Item extends Component {
                 {!item.images ? <div> <img alt="item" className="img-thumbnail img_item" src="https://via.placeholder.com/300x300/FFFFFF/000000/?text=syriashop.com" /> </div>: 
                   <div>
                   {item.images.length === 0 ? <img alt="item" className="img-thumbnail img_item"  src="https://via.placeholder.com/300x300/FFFFFF/000000/?text=syriashop.com" />:null}
-                  {item.images.map((image) => (
-                    <div>
-                    <img alt="item" className="img-thumbnail img_item" src={`${img1}${image}`} />
+                  {item.images.map((image,index) => (
+                    <div key={index}>
+                    <img alt="item" className="img-thumbnail img_item" src={image} />
                     </div>
                   ))}
                   </div>
                 }
    </Col>             
-  <Col md={3}>
+  <Col md={6}>
                   <h2 className="text-success"> 
                {item.name}
                   </h2> 
@@ -144,6 +151,7 @@ class Item extends Component {
                   <span><i className="fa fa-comments  batata ml-3" aria-hidden="true">{item.comment_count}</i></span>     
                          <div>
                          <Button
+                      id = 'a-cart'
                       className='fa fa-shopping-cart mt-2'
                       color='success'
                       size='sm'
@@ -151,9 +159,18 @@ class Item extends Component {
                     >
                       <span className='ml-1'>ADD TO CART</span>                      
                     </Button> 
+                    <Button
+                      id = 'd-cart'
+                      className='fa fa-trash d-cart ml-2 mt-2 d-none'
+                      color='danger'
+                      size='sm'
+                      onClick={this.onDeleteCart.bind(this, item._id)}
+                    >  
+                    <span className='ml-1'>REMOVE FROM CART</span>  
+                    </Button>                     
                     {this.props.isAuthenticated && item.writer === this.state.user_id  ?
                     <Button
-                      className='fa fa-trash ml-2'
+                      className='fa fa-trash ml-2 mt-2'
                       color='danger'
                       size='sm'
                       onClick={this.onDeleteClick.bind(this, item._id)}
@@ -203,8 +220,8 @@ class Item extends Component {
                     
                     {comment.replies ? (
                       <div className="mt-2 ml-3 smaller">
-                      {comment.replies.map((reply) => (
-                        <div className='ml-1 pb-1 border-bottom mb-1' key={reply._id}>
+                      {comment.replies.map((reply,index) => (
+                        <div key={index} className='ml-1 pb-1 border-bottom mb-1'>
                         {!reply.user_image ? <img alt="user" className="image_comment rounded-circle" src={img4} />:(
                             <span> 
                             <span> <img alt="user" className="image_comment rounded-circle" src={`${img1}${reply.user_image}`} /> </span>
@@ -241,4 +258,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { addReply, addToCart, addComment, getItem, addItem, deleteItem })(Item)
+export default connect(mapStateToProps, { addReply, addToCart, addComment, getItem, addItem, deleteItem, removeFromCart })(Item)

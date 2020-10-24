@@ -19,8 +19,24 @@ function LandingPage(props) {
     const Limit = 8
     const [PostSize, setPostSize] = useState()
     const [SearchTerms, setSearchTerms] = useState("")
-    const img1 = "http://localhost:5000/"
-    console.log("hey you"+isAuthenticated)
+    //const img1 = "http://localhost:5000/"
+    const img1 = "";
+
+const getProducts = (variables) => {
+    Axios.post('/items/getProducts', variables)
+        .then(response => {
+            if (response.data.success) {
+                if (variables.loadMore) {
+                    setProducts([...Products, ...response.data.products])
+                } else {
+                    setProducts(response.data.products)
+                }
+                setPostSize(response.data.postSize)
+            } else {
+                alert('Failed to fectch product datas')
+            }
+        })
+}
 
     useEffect(() => {
 
@@ -31,23 +47,8 @@ function LandingPage(props) {
 
         getProducts(variables)
 
-    }, [])
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
-    const getProducts = (variables) => {
-        Axios.post('/items/getProducts', variables)
-            .then(response => {
-                if (response.data.success) {
-                    if (variables.loadMore) {
-                        setProducts([...Products, ...response.data.products])
-                    } else {
-                        setProducts(response.data.products)
-                    }
-                    setPostSize(response.data.postSize)
-                } else {
-                    alert('Failed to fectch product datas')
-                }
-            })
-    }
 
     const onLoadMore = () => {
         let skip = Skip + Limit;
@@ -65,7 +66,6 @@ function LandingPage(props) {
     const changeColor = id => {
     refArray.current[id].classList.toggle("d-none");
     rArray.current[id].classList.toggle("d-none");
-    console.log(id);
     };
 
    const onDeleteClick = id => {
@@ -79,7 +79,7 @@ function LandingPage(props) {
         if (rArray.current[0]){
           console.log(rArray.current[0].current)
         //refArray.current[index].classList.toggle("disabledContent");
-      } else console.log("2ery b 2ery")
+      } 
     }else props.history.push('/SignIn')
     };
 
@@ -112,18 +112,28 @@ function LandingPage(props) {
 
             {Products.length === 0 ?
                 (
-                <div className="m-3">
-                    <h2>No post yet...</h2>
+                <div className="m-3 d-flex justify-content-center">
+                    <h2>Loading...</h2>
                 </div> ):
                 (<div>
                 <CardGroup>
                 {Products.map((item) => (
                  <Col md={3} sm={6} key={item._id}>
                 <Card className="m-2" >
-                {item.images.length === 0 ? <CardImg className="img_item img-thumbnail"  top width="100%"   src="https://via.placeholder.com/256x186/FFFFFF/000000/?text=myshop.com" />:null}
+                {item.images.length === 0 ? 
+                  <Link className="btn-link mr-3" to={{
+                pathname:`/item/${item._id}`,
+                query:{item: item}
+              }}>
+                  <CardImg className="img_item img-thumbnail"  top width="100%"   src="https://via.placeholder.com/256x186/FFFFFF/000000/?text=myshop.com" /></Link>:null}
                   {item.images.map((image) => (
                     <div key={item.images.indexOf(image)}>
-                    <CardImg className="img_item img-thumbnail"   top width="100%" src={`${img1}${image}`} />
+                    <Link className="btn-link mr-3" to={{
+                pathname:`/item/${item._id}`,
+                query:{item: item}
+              }}>
+              <CardImg className="img_item img-thumbnail"   top width="100%" src={`${img1}${image}`} />
+                    </Link>
                     </div>
                   ))}
                   <CardBody>
@@ -132,7 +142,8 @@ function LandingPage(props) {
                 pathname:`/item/${item._id}`,
                 query:{item: item}
               }}>{item.name}</Link>
-              <span><ReactTimeAgo date={item.date} locale="en"/></span>
+              {item.time ? (
+              <span><ReactTimeAgo date={item.date} locale="en"/></span>):null}
                   </CardTitle> 
 
                   <CardSubtitle>
@@ -156,8 +167,8 @@ function LandingPage(props) {
                       <span className='ml-1'>add to cart</span>   
                       </Button>
                   </div>
-                                    <div
-                                    className="d-none"
+                  <div
+                  className="d-none"
                   ref={ref => {
                   rArray.current[item._id] = ref;}}
                   onClick={changeColor.bind(null, item._id)}
@@ -177,8 +188,8 @@ function LandingPage(props) {
                  ))}
                  </CardGroup>
             {PostSize >= Limit ?
-                <div className="text-center">
-                    <Button  color="link" onClick={onLoadMore}>Load More</Button>
+                <div className="text-center mt-3">
+                    <Button size='lg' outline color="secondary" block onClick={onLoadMore}>Load More</Button>
                 </div>
                 :null
             }
